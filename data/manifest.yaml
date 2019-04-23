@@ -1,0 +1,6 @@
+---
+version: '0.1.0'
+dependencies:
+  - name: package_a
+  - name: package_b
+    version: '< 2'

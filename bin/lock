@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+
+require 'pp'
+require 'pubgrub_poc'
+
+def data_path(*path)
+  File.join(__dir__, '../data', *path)
+end
+
+manifest = PubGrubPoc::Manifest.new(data_path('manifest.yaml'))
+repository = PubGrubPoc::Repository.new(data_path('repository.yaml'))
+
+source = PubGrubPoc::Source.new(manifest, repository)
+solver = PubGrub::VersionSolver.new(source: source)
+
+begin
+  while !solver.solved?
+    PubGrubPoc.logger.info('[lock]') do
+      'Starting new work step'
+    end
+
+    solver.work
+  end
+
+  PubGrubPoc.logger.info('[lock]') do
+    "Solution found: #{solver.solution.decisions.inspect}"
+  end
+rescue PubGrub::SolveFailure => e
+  PubGrubPoc.logger.fatal('[lock]') do
+    "Solver failed:\n#{e.message}"
+  end
+end
