@@ -1,8 +1,8 @@
 module PubGrubPoc
   class Lockfile
-    def initialize(path, mode: :hold)
+    def initialize(path, mode: nil)
       @path = path
-      @mode = mode
+      @mode = mode || :hold
     end
 
     ##

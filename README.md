@@ -16,7 +16,8 @@ bundle install
 
     bundle exec bin/lock
 
-Solves dependencies based on a given manifest and repository.
+Solves dependencies based on a given manifest repository. If a lockfile already
+exists, locking will try to reuse locked version as much as possible.
 
 Feel free to play with the files in the [`data`](data/) folder to try out
 different scenarios.
