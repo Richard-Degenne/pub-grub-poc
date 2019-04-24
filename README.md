@@ -24,6 +24,8 @@ different scenarios.
 
 ### Updating
 
-    bundle exec bin/update
+    bundle exec bin/update [PACKAGES]
 
 Updating is like locking, with the exception that locked versions are ignored.
+If some `PACKAGES` are given, the locked versions will be ignored for these
+packages only.

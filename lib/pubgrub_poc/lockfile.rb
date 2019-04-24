@@ -1,13 +1,16 @@
 module PubGrubPoc
   class Lockfile
-    def initialize(path, mode: nil)
+    def initialize(path, overrides: nil, mode: nil)
       @path = path
+      @overrides = overrides || []
       @mode = mode || :hold
     end
 
     ##
     # Sorts a given set of versions according to lockfile preferences.
     def sort(package, versions)
+      # Return as is if `package` is in the overrides.
+      return versions if overrides.include?(package)
       # Return as is if lockfile does not contain `package`.
       return versions unless (locked_version = data[package])
 
@@ -19,7 +22,7 @@ module PubGrubPoc
 
     private
 
-    attr_reader :path, :mode
+    attr_reader :path, :overrides, :mode
 
     def satisfy?(version, locked_version)
       operator = case mode

@@ -47,7 +47,9 @@ module PubGrubPoc
       def lockfile
         return unless File.exist?(lockfile_path)
 
-        @lockfile ||= Lockfile.new(lockfile_path, mode: options[:mode])
+        @lockfile ||= Lockfile.new(
+          lockfile_path, overrides: options[:overrides], mode: options[:mode]
+        )
       end
 
       def source

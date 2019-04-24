@@ -5,4 +5,12 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'pp'
 require 'pubgrub_poc'
 
-PubGrubPoc::Services::Lock.new(mode: :major).run
+if ARGV.empty?
+  mode = :major
+  packages = []
+else
+  mode = :hold
+  packages = ARGV
+end
+
+PubGrubPoc::Services::Lock.new(mode: mode, overrides: packages).run
