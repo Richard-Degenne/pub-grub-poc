@@ -21,3 +21,9 @@ exists, locking will try to reuse locked version as much as possible.
 
 Feel free to play with the files in the [`data`](data/) folder to try out
 different scenarios.
+
+### Updating
+
+    bundle exec bin/update
+
+Updating is like locking, with the exception that locked versions are ignored.
