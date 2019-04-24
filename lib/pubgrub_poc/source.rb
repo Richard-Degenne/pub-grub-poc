@@ -2,11 +2,12 @@ module PubGrubPoc
   class Source < PubGrub::BasicPackageSource
     include PubGrub::RubyGems
 
-    def initialize(manifest, repository)
+    def initialize(manifest, repository, lockfile = nil)
       super()
 
       @manifest = manifest
       @repository = repository
+      @lockfile = lockfile
       @packages = {}
     end
 
@@ -15,7 +16,12 @@ module PubGrubPoc
         "Getting all versions of `#{package}`"
       end
 
-      repository.versions(package)
+      versions = repository.versions(package)
+      versions = lockfile.sort(package, versions) if lockfile
+      PubGrubPoc.logger.debug('[source]') do
+        "Found [#{versions.map(&:to_s).join(', ')}]"
+      end
+      versions
     end
 
     def root_dependencies
@@ -47,6 +53,6 @@ module PubGrubPoc
 
     private
 
-    attr_reader :manifest, :repository
+    attr_reader :manifest, :repository, :lockfile
   end
 end

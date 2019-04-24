@@ -11,8 +11,11 @@ end
 
 manifest = PubGrubPoc::Manifest.new(data_path('manifest.yaml'))
 repository = PubGrubPoc::Repository.new(data_path('repository.yaml'))
+lockfile = if File.exist?(data_path('lockfile.yaml'))
+  PubGrubPoc::Lockfile.new(data_path('lockfile.yaml'))
+end
 
-source = PubGrubPoc::Source.new(manifest, repository)
+source = PubGrubPoc::Source.new(manifest, repository, lockfile)
 solver = PubGrub::VersionSolver.new(source: source)
 
 begin

@@ -18,5 +18,5 @@ bundle install
 
 Solves dependencies based on a given manifest and repository.
 
-Feel free to play with [`data/manifest.yaml`](data/manifest.yaml) and
-[`data/repository.yaml`](data/repository.yaml) to try out different scenarios.
+Feel free to play with the files in the [`data`](data/) folder to try out
+different scenarios.

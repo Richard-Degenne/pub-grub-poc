@@ -8,6 +8,7 @@ module PubGrubPoc
   end
 end
 
-require_relative 'pubgrub_poc/repository'
+require_relative 'pubgrub_poc/lockfile'
 require_relative 'pubgrub_poc/manifest'
+require_relative 'pubgrub_poc/repository'
 require_relative 'pubgrub_poc/source'
