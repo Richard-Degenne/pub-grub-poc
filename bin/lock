@@ -34,4 +34,13 @@ rescue PubGrub::SolveFailure => e
   PubGrubPoc.logger.fatal('[lock]') do
     "Solver failed:\n#{e.message}"
   end
+
+  exit 1
 end
+
+PubGrubPoc.logger.info('[lock]') do
+  "Writing solution to `#{data_path('lockfile.yaml')}`"
+end
+File.write(
+  data_path('lockfile.yaml'), PubGrubPoc::Serializer.new(solver.solution).dump
+)

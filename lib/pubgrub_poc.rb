@@ -11,4 +11,5 @@ end
 require_relative 'pubgrub_poc/lockfile'
 require_relative 'pubgrub_poc/manifest'
 require_relative 'pubgrub_poc/repository'
+require_relative 'pubgrub_poc/serializer'
 require_relative 'pubgrub_poc/source'
