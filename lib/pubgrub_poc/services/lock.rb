@@ -57,7 +57,7 @@ module PubGrubPoc
       end
 
       def solver
-        @solver ||= PubGrub::VersionSolver.new(source: source)
+        @solver ||= Solver.new(source: source)
       end
 
       def log(severity, message)
