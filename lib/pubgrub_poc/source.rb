@@ -2,20 +2,25 @@ module PubGrubPoc
   class Source < PubGrub::BasicPackageSource
     include PubGrub::RubyGems
 
-    def initialize(manifest, repository, lockfile = nil)
+    def initialize(manifest, repository, lockfile = nil, pinfile = nil)
       super()
 
       @manifest = manifest
       @repository = repository
       @lockfile = lockfile
+      @pinfile = pinfile
       @packages = {}
     end
 
     def all_versions_for(package)
       log(:info, "Getting all versions of `#{package}`")
 
-      versions = repository.versions(package)
-      versions = lockfile.sort(package, versions) if lockfile
+      if pinfile&.pinned?(package)
+        versions = [pinfile.pinned_version(package)]
+      else
+        versions = repository.versions(package)
+        versions = lockfile.sort(package, versions) if lockfile
+      end
       log(:debug, "Found [#{versions.map(&:to_s).join(', ')}]")
       versions
     end
@@ -53,7 +58,7 @@ module PubGrubPoc
 
     private
 
-    attr_reader :manifest, :repository, :lockfile
+    attr_reader :manifest, :repository, :lockfile, :pinfile
 
     def log(severity, message)
       PubGrubPoc.logger.public_send(severity, '[source]') { message }

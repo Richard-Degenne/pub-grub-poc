@@ -20,6 +20,10 @@ module PubGrubPoc
       data_file('lockfile.yaml')
     end
 
+    def pinfile_path
+      data_file('pinfile.yaml')
+    end
+
     def repository_path
       data_file('repository.yaml')
     end
@@ -28,6 +32,7 @@ end
 
 require_relative 'pubgrub_poc/lockfile'
 require_relative 'pubgrub_poc/manifest'
+require_relative 'pubgrub_poc/pinfile'
 require_relative 'pubgrub_poc/repository'
 require_relative 'pubgrub_poc/serializer'
 require_relative 'pubgrub_poc/services'

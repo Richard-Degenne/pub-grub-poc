@@ -5,13 +5,17 @@ module PubGrubPoc
         manifest_path = PubGrubPoc.manifest_path,
         repository_path = PubGrubPoc.repository_path,
         lockfile_path = PubGrubPoc.lockfile_path,
+        pinfile_path = PubGrubPoc.pinfile_path,
         output_lockfile_path = lockfile_path,
+        output_pinfile_path = pinfile_path,
         **options
       )
         @manifest_path = manifest_path
         @repository_path = repository_path
         @lockfile_path = lockfile_path
+        @pinfile_path = pinfile_path
         @output_lockfile_path = output_lockfile_path || PubGrubPoc.lockfile_path
+        @output_pinfile_path = output_pinfile_path || PubGrubPoc.pinfile_path
         @options = options
       end
 
@@ -34,7 +38,7 @@ module PubGrubPoc
       private
 
       attr_reader :manifest_path, :repository_path, :lockfile_path,
-        :output_lockfile_path, :options
+        :output_lockfile_path, :pinfile_path, :output_pinfile_path, :options
 
       def manifest
         @manifest ||= Manifest.new(manifest_path)
@@ -52,8 +56,14 @@ module PubGrubPoc
         )
       end
 
+      def pinfile
+        return unless File.exist?(pinfile_path)
+
+        @pinfile ||= Pinfile.new(pinfile_path)
+      end
+
       def source
-        @source ||= Source.new(manifest, repository, lockfile)
+        @source ||= Source.new(manifest, repository, lockfile, pinfile)
       end
 
       def solver
